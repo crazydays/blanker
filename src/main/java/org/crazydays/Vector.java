@@ -3,12 +3,18 @@ package org.crazydays;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class Vertex {
+public class Vector {
     private float x;
     private float y;
     private float z;
 
-    public Vertex(float x, float y, float z) {
+    public Vector(Vertex a, Vertex b) {
+        this.x = b.getX() - a.getX();
+        this.y = b.getY() - a.getY();
+        this.z = b.getZ() - a.getZ();
+    }
+
+    public Vector(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;

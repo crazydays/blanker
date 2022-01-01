@@ -14,6 +14,7 @@ public class Main {
         parser.addArgument("-t", "--tube").type(Float.class).setDefault(0.25f).help("Tube diameter");
         parser.addArgument("-d", "--diameter").type(Float.class).setDefault(0.75).help("Blank diameter");
         parser.addArgument("-z", "--imageZero").type(Float.class).setDefault(.50).help("Image zero");
+        parser.addArgument("-c", "--center").type(Boolean.class).setDefault(true).help("Mold center");
         parser.addArgument("-f", "--funnel").type(Boolean.class).setDefault(true).help("Pour funnel");
         parser.addArgument("-i", "--image").type(String.class).help("SVG image file");
         parser.addArgument("-o", "--output").type(String.class).setDefault("blank.stl").help("Output STL file");
@@ -37,6 +38,7 @@ public class Main {
         float tube = ns.getFloat("tube");
         float diameter = ns.getFloat("diameter");
 
+        boolean center = ns.getBoolean("center");
         boolean funnel = ns.getBoolean("funnel");
 
         float imageZero = ns.getFloat("imageZero");
@@ -49,12 +51,13 @@ public class Main {
         System.out.println(String.format("\tLength: %.3f", length));
         System.out.println(String.format("\tTube: %.3f", tube));
         System.out.println(String.format("\tDiameter: %.3f", diameter));
+        System.out.println(String.format("\tCenter: %b", center));
         System.out.println(String.format("\tFunnel: %b", funnel));
         System.out.println(String.format("\tImageZero: %.3f", imageZero));
         System.out.println(String.format("\tImageFilename: %s", imageFilename));
         System.out.println(String.format("\tOutputFilename: %s", outputFilename));
 
-        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, funnel);
+        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel);
         blankConfiguration.setImageZero(imageZero);
         blankConfiguration.setImageFilename(imageFilename);
 

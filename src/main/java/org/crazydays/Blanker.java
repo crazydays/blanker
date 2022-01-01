@@ -41,22 +41,30 @@ public class Blanker {
 
     private void generateTop() {
         System.out.println("Top");
-        for (int i = 0; i < rotationStep(); i++) {
-            float x = (float) Math.sin((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
-            float y = (float) Math.cos((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
-            float X = (float) Math.sin((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
-            float Y = (float) Math.cos((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
+        if (blankConfiguration.getCenter()) {
+            for (int i = 0; i < rotationStep(); i++) {
+                float x = (float) Math.sin((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
+                float y = (float) Math.cos((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
+                float X = (float) Math.sin((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
+                float Y = (float) Math.cos((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
 
-            blank.addFacet(new Facet(new Normal(0.0f, -1.0f, 0.0f), new Vertex(0, 0, 0.0f),  new Vertex(x, y, 0.0f), new Vertex(X, Y, 0.0f),0));
+                blank.addFacet(new Facet(new Vertex(0, 0, 5.0f),  new Vertex(x, y, 0.0f), new Vertex(X, Y, 0.0f),0));
+            }
+        } else {
+            for (int i = 0; i < rotationStep(); i++) {
+                float x = (float) Math.sin((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
+                float y = (float) Math.cos((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getTube() / 2);
+                float X = (float) Math.sin((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
+                float Y = (float) Math.cos((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
+
+                blank.addFacet(new Facet(new Vertex(0, 0, 0.0f),  new Vertex(x, y, 0.0f), new Vertex(X, Y, 0.0f),0));
+            }
         }
     }
 
     private void generateShaft() {
         System.out.println("Shaft");
         int imageColumn = 0;
-
-        float[] normalX = new float[rotationStep()];
-        float[] normalY = new float[rotationStep()];
 
         float[] currentLeadingX = new float[rotationStep()];
         float[] currentLeadingY = new float[rotationStep()];
@@ -87,10 +95,6 @@ public class Blanker {
             for (int i = 0; i < rotationStep(); i++) {
                 previousRaised[i] = currentRaised[i];
 
-                // TODO: fix normalization calculation
-                normalX[i] = (float) Math.sin((2 * Math.PI) / rotationStep() * (i - Z_STEP / 2));
-                normalY[i] = (float) Math.cos((2 * Math.PI) / rotationStep() * (i - Z_STEP / 2));
-
                 currentRaised[i] = z > imageOffset && imageColumn < image.getWidth() && i < image.getHeight() && image.getRGB(imageColumn, i) == -16777216;
 
                 upperLeadingX[i] = (float) Math.sin((2 * Math.PI) / rotationStep() * i) * (blankConfiguration.getDiameter() / 2);
@@ -119,32 +123,30 @@ public class Blanker {
             for (int i = 0; i < rotationStep(); i++) {
                 if (currentRaised[i] && !currentRaised[(i + rotationStep() - 1) % rotationStep()]) {
                     // setup up level: top
-                    // TODO: invalid normal
-                    blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z + Z_STEP), 0));
-                    blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z + Z_STEP), new Vertex(upperTrailingX[i], upperTrailingY[i], z + Z_STEP), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z + Z_STEP), 0));
+                    blank.addFacet(new Facet(new Vertex(lowerTrailingX[i], lowerTrailingY[i], z + Z_STEP), new Vertex(upperTrailingX[i], upperTrailingY[i], z + Z_STEP), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), 0));
                 }
 
                 if (currentRaised[i] && !previousRaised[i]) {
                     // step up level: front face
-                    blank.addFacet(new Facet(new Normal(0.0f, 0.0f, 1.0f), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z), 0));
-                    blank.addFacet(new Facet(new Normal(0.0f, 0.0f, 1.0f), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z), 0));
                 }
 
                 if (!currentRaised[i] && previousRaised[i]) {
                     // step down level: back face
-                    blank.addFacet(new Facet(new Normal(0.0f, 0.0f, -1.0f), new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z), 0));
-                    blank.addFacet(new Facet(new Normal(0.0f, 0.0f, -1.0f), new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(upperTrailingX[i], upperTrailingY[i], z), new Vertex(lowerTrailingX[i], lowerTrailingY[i], z), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), 0));
                 }
 
                 if (currentRaised[i] && !currentRaised[(i + 1) % rotationStep()]) {
                     // setup up level: top
-                    // TODO: invalid normal
-                    blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(upperLeadingX[i], upperLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z + Z_STEP), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), 0));
-                    blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z + Z_STEP), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z + Z_STEP), 0));
+                    blank.addFacet(new Facet(new Vertex(upperLeadingX[i], upperLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z + Z_STEP), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), 0));
+                    blank.addFacet(new Facet(new Vertex(lowerLeadingX[i], lowerLeadingY[i], z + Z_STEP), new Vertex(lowerLeadingX[i], lowerLeadingY[i], z), new Vertex(upperLeadingX[i], upperLeadingY[i], z + Z_STEP), 0));
                 }
 
-                blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(currentLeadingX[i], currentLeadingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z + Z_STEP), 0));
-                blank.addFacet(new Facet(new Normal(normalX[i], normalY[i], 0.0f), new Vertex(currentLeadingX[i], currentLeadingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z + Z_STEP), new Vertex(currentLeadingX[i], currentLeadingY[i], z + Z_STEP), 0));
+                blank.addFacet(new Facet(new Vertex(currentLeadingX[i], currentLeadingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z + Z_STEP), 0));
+                blank.addFacet(new Facet(new Vertex(currentLeadingX[i], currentLeadingY[i], z), new Vertex(currentTrailingX[i], currentTrailingY[i], z + Z_STEP), new Vertex(currentLeadingX[i], currentLeadingY[i], z + Z_STEP), 0));
             }
         }
     }
@@ -164,11 +166,10 @@ public class Blanker {
                 float z = blankConfiguration.getLength();
                 float Z = blankConfiguration.getLength() + 5.0f;
 
-                // TODO: fix normal
-                blank.addFacet(new Facet(new Normal(0.0f, 0.0f, -1.0f), new Vertex(tX, tY, z), new Vertex(dX, dY, Z), new Vertex(tx, ty, z), 0));
-                blank.addFacet(new Facet(new Normal(0.0f, 0.0f, -1.0f), new Vertex(dx, dy, Z), new Vertex(tx, ty, z), new Vertex(dX, dY, Z), 0));
+                blank.addFacet(new Facet(new Vertex(tX, tY, z), new Vertex(dX, dY, Z), new Vertex(tx, ty, z), 0));
+                blank.addFacet(new Facet(new Vertex(dx, dy, Z), new Vertex(tx, ty, z), new Vertex(dX, dY, Z), 0));
 
-                blank.addFacet(new Facet(new Normal(0.0f, 0.0f, 1.0f), new Vertex(0, 0, Z), new Vertex(dx, dy, Z), new Vertex(dX, dY, Z), 0));
+                blank.addFacet(new Facet(new Vertex(0, 0, Z), new Vertex(dx, dy, Z), new Vertex(dX, dY, Z), 0));
             }
         } else {
             for (int i = 0; i < rotationStep(); i++) {
@@ -177,7 +178,7 @@ public class Blanker {
                 float X = (float) Math.sin((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
                 float Y = (float) Math.cos((2 * Math.PI) / rotationStep() * (i + 1)) * (blankConfiguration.getTube() / 2);
 
-                blank.addFacet(new Facet(new Normal(0.0f, 1.0f, 0.0f), new Vertex(0, 0, blankConfiguration.getLength()), new Vertex(X, Y, blankConfiguration.getLength()), new Vertex(x, y, blankConfiguration.getLength()), 0));
+                blank.addFacet(new Facet(new Vertex(0, 0, blankConfiguration.getLength()), new Vertex(X, Y, blankConfiguration.getLength()), new Vertex(x, y, blankConfiguration.getLength()), 0));
             }
         }
     }
@@ -197,29 +198,4 @@ public class Blanker {
             System.err.println(e);
         }
     }
-
-    // CUBE
-    //        // back
-    //        blank.addFacet(new Facet(new Normal(0.0f, -1.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(0.0f, 1.0f, 0.0f), new Vertex(1.0f, 1.0f, 0.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(0.0f, -1.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(1.0f, 1.0f, 0.0f), new Vertex(1.0f, 0.0f, 0.0f), 0));
-    //
-    //        // bottom
-    //        blank.addFacet(new Facet(new Normal(0.0f, -1.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(1.0f, 0.0f, 0.0f), new Vertex(1.0f, 0.0f, 1.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(0.0f, -1.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(1.0f, 0.0f, 1.0f), new Vertex(0.0f, 0.0f, 1.0f), 0));
-    //
-    //        // left
-    //        blank.addFacet(new Facet(new Normal(-1.0f, 0.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(0.0f, 0.0f, 1.0f), new Vertex(0.0f, 1.0f, 1.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(-1.0f, 0.0f, 0.0f), new Vertex(0.0f, 0.0f, 0.0f), new Vertex(0.0f, 1.0f, 1.0f), new Vertex(0.0f, 1.0f, 0.0f), 0));
-    //
-    //        // top
-    //        blank.addFacet(new Facet(new Normal(0.0f, 1.0f, 0.0f), new Vertex(0.0f, 1.0f, 1.0f), new Vertex(1.0f, 1.0f, 0.0f), new Vertex(0.0f, 1.0f, 0.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(0.0f, 1.0f, 0.0f), new Vertex(0.0f, 1.0f, 1.0f), new Vertex(1.0f, 1.0f, 1.0f), new Vertex(1.0f, 1.0f, 0.0f), 0));
-    //
-    //        // right
-    //        blank.addFacet(new Facet(new Normal(1.0f, 0.0f, 0.0f), new Vertex(1.0f, 1.0f, 1.0f), new Vertex(1.0f, 0.0f, 0.0f), new Vertex(1.0f, 1.0f, 0.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(1.0f, 0.0f, 0.0f), new Vertex(1.0f, 1.0f, 1.0f), new Vertex(1.0f, 0.0f, 1.0f), new Vertex(1.0f, 0.0f, 0.0f), 0));
-    //
-    //        // front
-    //        blank.addFacet(new Facet(new Normal(0.0f, 0.0f, 1.0f), new Vertex(1.0f, 1.0f, 1.0f), new Vertex(0.0f, 0.0f, 1.0f), new Vertex(1.0f, 0.0f, 1.0f), 0));
-    //        blank.addFacet(new Facet(new Normal(0.0f, 0.0f, 1.0f), new Vertex(1.0f, 1.0f, 1.0f), new Vertex(0.0f, 1.0f, 1.0f), new Vertex(0.0f, 0.0f, 1.0f), 0));
 }

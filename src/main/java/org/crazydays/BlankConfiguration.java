@@ -7,16 +7,18 @@ public class BlankConfiguration {
     private float length;
     private float tube;
     private float diameter;
+    private boolean center;
     private boolean funnel;
 
     private float imageZero;
     private String imageFilename;
 
-    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean funnel) {
+    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, boolean funnel) {
         this.units = units;
         this.length = length;
         this.tube = tube;
         this.diameter = diameter;
+        this.center = center;
         this.funnel = funnel;
     }
 
@@ -55,6 +57,10 @@ public class BlankConfiguration {
             default:
                 return diameter;
         }
+    }
+
+    public boolean getCenter() {
+        return center;
     }
 
     public boolean getFunnel() {
