@@ -8,14 +8,12 @@ public class Blanker {
     public final static float Z_STEP = 0.04f;
 
     public final static float MOLD_THICKNESS = 2.0f;
-    public final static float MOLD_WIDTH = 25.0f;
     public final static float MOLD_BOTTOM_PADDING = 5.0f;
     public final static float MOLD_TOP_PADDING = 10.0f;
 
     public final static float CENTER_DEPTH = 5.0f;
     public final static float FUNNEL_DEPTH = 5.0f;
     public final static float FUNNEL_HEIGHT = 10.0f;
-    public final static float FUNNEL_RADIUS = 9.96f;
 
     private final BlankConfiguration blankConfiguration;
     private final Blank blank;
@@ -30,6 +28,8 @@ public class Blanker {
     private float[] imageY;
     private float[] funnelX;
     private float[] funnelY;
+    private float[] roundMoldX;
+    private float[] roundMoldY;
 
     public Blanker(BlankConfiguration blankConfiguration, String outputFilename) {
         this.blankConfiguration = blankConfiguration;
@@ -52,8 +52,12 @@ public class Blanker {
 
         generateXYDimensions();
 
-        if (blankConfiguration.isMold()) {
-            generateMold();
+        if (blankConfiguration.isSquareMold()) {
+            generateSquareMold();
+        }
+
+        if (blankConfiguration.isRoundMold()) {
+            generateRoundMold();
         }
 
         generateTop();
@@ -69,140 +73,196 @@ public class Blanker {
         imageY = new float[rotationSteps()];
         funnelX = new float[rotationSteps()];
         funnelY = new float[rotationSteps()];
+        roundMoldX = new float[rotationSteps()];
+        roundMoldY = new float[rotationSteps()];
 
         for (int i = 0; i < rotationSteps(); i++) {
             tubeX[i] = (float) Math.sin((2 * Math.PI) / rotationSteps() * i) * tubeRadius();
             tubeY[i] = (float) Math.cos((2 * Math.PI) / rotationSteps() * i) * tubeRadius();
             imageX[i] = (float) Math.sin((2 * Math.PI) / rotationSteps() * (i + 1)) * imageRadius();
             imageY[i] = (float) Math.cos((2 * Math.PI) / rotationSteps() * (i + 1)) * imageRadius();
-            funnelX[i] = (float) Math.sin((2 * Math.PI) / rotationSteps() * i) * FUNNEL_RADIUS;
-            funnelY[i] = (float) Math.cos((2 * Math.PI) / rotationSteps() * i) * FUNNEL_RADIUS;
+            funnelX[i] = (float) Math.sin((2 * Math.PI) / rotationSteps() * i) * funnelRadius();
+            funnelY[i] = (float) Math.cos((2 * Math.PI) / rotationSteps() * i) * funnelRadius();
+            roundMoldX[i] = (float) Math.sin((2 * Math.PI) / rotationSteps() * i) * roundMoldRadius();
+            roundMoldY[i] = (float) Math.cos((2 * Math.PI) / rotationSteps() * i) * roundMoldRadius();
 
             System.out.format(
                     "tube (x, y) => (%.3f, %.3f), image (x, y) => (%.3f, %.3f)\n",
                     tubeX[i], tubeY[i], imageX[i], imageY[i]);
+            System.out.format(
+                    "funnel (x, y) => (%.3f, %.3f), roundMold (x, y) => (%.3f, %.3f)\n",
+                    funnelX[i], funnelY[i], roundMoldX[i], roundMoldY[i]);
        }
     }
 
-    private void generateMold() {
-        System.out.println("generating mold");
+    private void generateSquareMold() {
+        System.out.println("generating square mold");
 
         // back
         addFacet(
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
         addFacet(
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
 
         // left
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
 
         // top
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
 
         // right
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(0.0f, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+                vertex(0.0f, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
         );
 
         // bottom
         addFacet(
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
         addFacet(
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
 
         // bottom left
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
         addFacet(
-                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING)
         );
 
 
         // bottom front
         addFacet(
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
         addFacet(
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING)
         );
 
         // bottom right
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(0.0f, blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+                vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
         );
 
         // bottom top
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+                vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING)
         );
         addFacet(
-                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+                vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(0.0f, -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                vertex(blankConfiguration.getSquareMold(), -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING)
         );
+    }
+
+    private void generateRoundMold() {
+        int steps = rotationSteps();
+        float z = -MOLD_BOTTOM_PADDING;
+        float Z = blankConfiguration.isFunnel() ? blankConfiguration.getLength() + FUNNEL_DEPTH + FUNNEL_HEIGHT: blankConfiguration.getLength();
+
+        for (int i = 0; i < steps; i++) {
+            float x0 = blankConfiguration.isFunnel() ? funnelX(i) : x(i, false);
+            float y0 = blankConfiguration.isFunnel() ? funnelY(i) : y(i, false);
+            float x1 = blankConfiguration.isFunnel() ? funnelX(i + 1) : x(i + 1, false);
+            float y1 = blankConfiguration.isFunnel() ? funnelY(i + 1) : y(i + 1, false);
+            float X0 = roundMoldX(i);
+            float Y0 = roundMoldY(i);
+            float X1 = roundMoldX(i + 1);
+            float Y1 = roundMoldY(i + 1);
+
+            // top
+            addFacet(
+                    vertex(x0, y0, Z),
+                    vertex(X0, Y0, Z),
+                    vertex(X1, Y1, Z)
+            );
+            addFacet(
+                    vertex(x0, y0, Z),
+                    vertex(X1, Y1, Z),
+                    vertex(x1, y1, Z)
+            );
+
+            // sides
+            addFacet(
+                    vertex(X0, Y0, Z),
+                    vertex(X0, Y0, z),
+                    vertex(X1, Y1, z)
+            );
+            addFacet(
+                    vertex(X0, Y0, Z),
+                    vertex(X1, Y1, z),
+                    vertex(X1, Y1, Z)
+            );
+
+            // bottom
+            addFacet(
+                    vertex(0.0f, 0.0f, z),
+                    vertex(X1, Y1, z),
+                    vertex(X0, Y0, z)
+            );
+
+        }
     }
 
     private void generateTop() {
         System.out.println("generating top");
 
-        int steps = blankConfiguration.isMold() ? rotationSteps() / 2 : rotationSteps();
+        int steps = blankConfiguration.isSquareMold() ? rotationSteps() / 2 : rotationSteps();
 
-        if (blankConfiguration.isMold()) {
+        if (blankConfiguration.isSquareMold()) {
             if (blankConfiguration.isCenter()) {
                 addFacet(
                         vertex(0.0f, 0.0f, CENTER_DEPTH),
@@ -212,14 +272,14 @@ public class Blanker {
             }
 
             addFacet(
-                    vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                    vertex(0.0f, -MOLD_WIDTH, 0.0f),
-                    vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+                    vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), 0.0f),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING)
             );
             addFacet(
-                    vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                    vertex(0.0f, MOLD_WIDTH, 0.0f),
-                    vertex(0.0f, -MOLD_WIDTH, 0.0f)
+                    vertex(0.0f, blankConfiguration.getSquareMold(), -MOLD_BOTTOM_PADDING),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), 0.0f),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), 0.0f)
             );
         }
 
@@ -241,28 +301,28 @@ public class Blanker {
     private void generateShaft() {
         System.out.println("generating shaft");
 
-        int steps = blankConfiguration.isMold() ? rotationSteps() / 2 : rotationSteps();
+        int steps = blankConfiguration.isSquareMold() ? rotationSteps() / 2 : rotationSteps();
 
-        if (blankConfiguration.isMold()) {
+        if (blankConfiguration.isSquareMold()) {
             addFacet(
                     vertex(0.0f, -tubeRadius(), 0.0f),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
-                    vertex(0.0f, -MOLD_WIDTH, 0.0f)
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength()),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), 0.0f)
             );
             addFacet(
                     vertex(0.0f, -tubeRadius(), 0.0f),
                     vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength())
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength())
             );
 
             addFacet(
                     vertex(0.0f, tubeRadius(), 0.0f),
-                    vertex(0.0f, MOLD_WIDTH, 0.0f),
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength())
+                    vertex(0.0f, blankConfiguration.getSquareMold(), 0.0f),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength())
             );
             addFacet(
                     vertex(0.0f, tubeRadius(), 0.0f),
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength()),
                     vertex(0.0f, tubeRadius(), blankConfiguration.getLength())
             );
         }
@@ -391,43 +451,43 @@ public class Blanker {
     private void generateBottom() {
         System.out.println("generate bottom");
 
-        int steps = blankConfiguration.isMold() ? rotationSteps() / 2 : rotationSteps();
+        int steps = blankConfiguration.isSquareMold() ? rotationSteps() / 2 : rotationSteps();
 
-        if (blankConfiguration.isMold()) {
+        if (blankConfiguration.isSquareMold()) {
             // left
             addFacet(
                     vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
                     vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength())
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength())
             );
             addFacet(
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength()),
                     vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH)
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH)
             );
 
             // right
             addFacet(
                     vertex(0.0f, tubeRadius(), blankConfiguration.getLength()),
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength()),
                     vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH)
             );
             addFacet(
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength()),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH),
                     vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH)
             );
 
             // above
             addFacet(
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH)
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH)
             );
             addFacet(
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
-                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING)
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
+                    vertex(0.0f, -blankConfiguration.getSquareMold(), blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING)
             );
         }
 
@@ -468,11 +528,13 @@ public class Blanker {
                         vertex(dX, dY, Z)
                 );
 
-                addFacet(
-                        vertex(dx, dy, Z + FUNNEL_HEIGHT),
-                        vertex(0, 0, Z + FUNNEL_HEIGHT),
-                        vertex(dX, dY, Z + FUNNEL_HEIGHT)
-                );
+                if (blankConfiguration.isPositive()) {
+                    addFacet(
+                            vertex(dx, dy, Z + FUNNEL_HEIGHT),
+                            vertex(0, 0, Z + FUNNEL_HEIGHT),
+                            vertex(dX, dY, Z + FUNNEL_HEIGHT)
+                    );
+                }
             }
         } else {
             for (int i = 0; i < steps; i++) {
@@ -527,12 +589,28 @@ public class Blanker {
         return funnelY[rotationStep % rotationSteps()];
     }
 
+    float roundMoldX(int rotationStep) {
+        return roundMoldX[rotationStep % rotationSteps()];
+    }
+
+    float roundMoldY(int rotationStep) {
+        return roundMoldY[rotationStep % rotationSteps()];
+    }
+
     private float tubeRadius() {
         return blankConfiguration.getTube() / 2.0f;
     }
 
     private float imageRadius() {
         return blankConfiguration.getDiameter() / 2.0f;
+    }
+
+    private float funnelRadius() {
+        return blankConfiguration.getFunnel() / 2.0f;
+    }
+
+    private float roundMoldRadius() {
+        return blankConfiguration.getRoundMold() / 2.0f;
     }
 
     private int rotationSteps() {
