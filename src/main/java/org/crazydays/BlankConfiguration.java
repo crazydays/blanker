@@ -3,23 +3,24 @@ package org.crazydays;
 import java.io.File;
 
 public class BlankConfiguration {
-    private Units units;
-    private float length;
-    private float tube;
-    private float diameter;
-    private boolean center;
-    private boolean funnel;
-
+    private final Units units;
+    private final float length;
+    private final float tube;
+    private final float diameter;
+    private final boolean center;
+    private final boolean funnel;
+    private final boolean mold;
     private float imageZero;
     private String imageFilename;
 
-    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, boolean funnel) {
+    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, boolean funnel, boolean mold) {
         this.units = units;
         this.length = length;
         this.tube = tube;
         this.diameter = diameter;
         this.center = center;
         this.funnel = funnel;
+        this.mold = mold;
     }
 
     public Units getUnits() {
@@ -59,12 +60,16 @@ public class BlankConfiguration {
         }
     }
 
-    public boolean getCenter() {
+    public boolean isCenter() {
         return center;
     }
 
-    public boolean getFunnel() {
+    public boolean isFunnel() {
         return funnel;
+    }
+
+    public boolean isMold() {
+        return mold;
     }
 
     public void setImageZero(float imageZero) {
@@ -86,7 +91,7 @@ public class BlankConfiguration {
         this.imageFilename = imageFilename;
     }
 
-    public File getImagefile() {
+    public File getImageFile() {
         return new File(imageFilename);
     }
 }

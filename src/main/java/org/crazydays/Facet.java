@@ -7,19 +7,11 @@ import java.nio.ByteOrder;
  * https://www.fabbers.com/tech/STL_Format#Sct_binary
  */
 public class Facet {
-    private Normal normal;
-    private Vertex a;
-    private Vertex b;
-    private Vertex c;
-    private Integer attributeByteCount;
-
-    public Facet(Normal normal, Vertex a, Vertex b, Vertex c, Integer attributeByteCount) {
-        this.normal = normal;
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.attributeByteCount = attributeByteCount;
-    }
+    private final Normal normal;
+    private final Vertex a;
+    private final Vertex b;
+    private final Vertex c;
+    private final Integer attributeByteCount;
 
     public Facet(Vertex a, Vertex b, Vertex c, Integer attributeByteCount) {
         this.normal = calculateUnitNormal(a, b, c);

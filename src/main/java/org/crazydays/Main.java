@@ -1,7 +1,6 @@
 package org.crazydays;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
-import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
@@ -16,6 +15,7 @@ public class Main {
         parser.addArgument("-z", "--imageZero").type(Float.class).setDefault(.50).help("Image zero");
         parser.addArgument("-c", "--center").type(Boolean.class).setDefault(true).help("Mold center");
         parser.addArgument("-f", "--funnel").type(Boolean.class).setDefault(true).help("Pour funnel");
+        parser.addArgument("-m", "--mold").type(Boolean.class).setDefault(false).help("Two Part Mold");
         parser.addArgument("-i", "--image").type(String.class).help("SVG image file");
         parser.addArgument("-o", "--output").type(String.class).setDefault("blank.stl").help("Output STL file");
 
@@ -40,24 +40,26 @@ public class Main {
 
         boolean center = ns.getBoolean("center");
         boolean funnel = ns.getBoolean("funnel");
+        boolean mold = ns.getBoolean("mold");
 
         float imageZero = ns.getFloat("imageZero");
         String imageFilename = ns.getString("image");
 
         String outputFilename = ns.getString("output");
 
-        System.out.println("Generating blank");
-        System.out.println("\tUnits: " + units.name());
-        System.out.println(String.format("\tLength: %.3f", length));
-        System.out.println(String.format("\tTube: %.3f", tube));
-        System.out.println(String.format("\tDiameter: %.3f", diameter));
-        System.out.println(String.format("\tCenter: %b", center));
-        System.out.println(String.format("\tFunnel: %b", funnel));
-        System.out.println(String.format("\tImageZero: %.3f", imageZero));
-        System.out.println(String.format("\tImageFilename: %s", imageFilename));
-        System.out.println(String.format("\tOutputFilename: %s", outputFilename));
+        System.out.format("Generating blank\n");
+        System.out.format("\tUnits: %s\n", units.name());
+        System.out.format("\tLength: %.3f\n", length);
+        System.out.format("\tTube: %.3f\n", tube);
+        System.out.format("\tDiameter: %.3f\n", diameter);
+        System.out.format("\tCenter: %b\n", center);
+        System.out.format("\tFunnel: %b\n", funnel);
+        System.out.format("\tMold: %b\n", mold);
+        System.out.format("\tImageZero: %.3f\n", imageZero);
+        System.out.format("\tImageFilename: %s\n", imageFilename);
+        System.out.format("\tOutputFilename: %s\n", outputFilename);
 
-        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel);
+        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel, mold);
         blankConfiguration.setImageZero(imageZero);
         blankConfiguration.setImageFilename(imageFilename);
 
