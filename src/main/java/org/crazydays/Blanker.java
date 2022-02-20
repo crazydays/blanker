@@ -88,113 +88,113 @@ public class Blanker {
         System.out.println("generating mold");
 
         // back
-        blank.addFacet(new Facet(
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
+        addFacet(
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
+        addFacet(
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
 
         // left
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
 
         // top
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
 
         // right
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
-                0));
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING),
+                vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + (blankConfiguration.isFunnel() ? FUNNEL_DEPTH : 0.0f) + MOLD_TOP_PADDING)
+        );
 
         // bottom
-        blank.addFacet(new Facet(
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
+        addFacet(
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
+        addFacet(
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(-MOLD_THICKNESS, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
 
         // bottom left
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                0));
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(0.0f, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
+        addFacet(
+                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+        );
 
 
         // bottom front
-        blank.addFacet(new Facet(
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                0));
+        addFacet(
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
+        addFacet(
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+        );
 
         // bottom right
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                new Vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
-                0));
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS)),
+                vertex(0.0f, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -(MOLD_BOTTOM_PADDING + MOLD_THICKNESS))
+        );
 
         // bottom top
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                0));
-        blank.addFacet(new Facet(
-                new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                new Vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                0));
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+        );
+        addFacet(
+                vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                vertex(MOLD_WIDTH, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+        );
     }
 
     private void generateTop() {
@@ -204,26 +204,23 @@ public class Blanker {
 
         if (blankConfiguration.isMold()) {
             if (blankConfiguration.isCenter()) {
-                blank.addFacet(
-                        new Facet(
-                                new Vertex(0.0f, 0.0f, CENTER_DEPTH),
-                                new Vertex(0.0f, -tubeRadius(), 0.0f),
-                                new Vertex(0.0f, tubeRadius(), 0.0f),
-                                0));
+                addFacet(
+                        vertex(0.0f, 0.0f, CENTER_DEPTH),
+                        vertex(0.0f, -tubeRadius(), 0.0f),
+                        vertex(0.0f, tubeRadius(), 0.0f)
+                );
             }
 
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                            new Vertex(0.0f, -MOLD_WIDTH, 0.0f),
-                            new Vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
-                            new Vertex(0.0f, MOLD_WIDTH, 0.0f),
-                            new Vertex(0.0f, -MOLD_WIDTH, 0.0f),
-                            0));
+            addFacet(
+                    vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                    vertex(0.0f, -MOLD_WIDTH, 0.0f),
+                    vertex(0.0f, -MOLD_WIDTH, -MOLD_BOTTOM_PADDING)
+            );
+            addFacet(
+                    vertex(0.0f, MOLD_WIDTH, -MOLD_BOTTOM_PADDING),
+                    vertex(0.0f, MOLD_WIDTH, 0.0f),
+                    vertex(0.0f, -MOLD_WIDTH, 0.0f)
+            );
         }
 
         for (int i = 0; i < steps; i++) {
@@ -233,11 +230,11 @@ public class Blanker {
             float Y = y(i + 1, false);
             float z = blankConfiguration.isCenter() ? CENTER_DEPTH : 0.0f;
 
-            blank.addFacet(new Facet(
-                    new Vertex(x, y, 0.0f),
-                    new Vertex(X, Y, 0.0f),
-                    new Vertex(0.0f, 0.0f, z),
-                    0));
+            addFacet(
+                    vertex(x, y, 0.0f),
+                    vertex(X, Y, 0.0f),
+                    vertex(0.0f, 0.0f, z)
+            );
         }
     }
 
@@ -247,32 +244,27 @@ public class Blanker {
         int steps = blankConfiguration.isMold() ? rotationSteps() / 2 : rotationSteps();
 
         if (blankConfiguration.isMold()) {
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, -tubeRadius(), 0.0f),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
-                            new Vertex(0.0f, -MOLD_WIDTH, 0.0f),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, -tubeRadius(), 0.0f),
-                            new Vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
-                            0));
+            addFacet(
+                    vertex(0.0f, -tubeRadius(), 0.0f),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, -MOLD_WIDTH, 0.0f)
+            );
+            addFacet(
+                    vertex(0.0f, -tubeRadius(), 0.0f),
+                    vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength())
+            );
 
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, tubeRadius(), 0.0f),
-                            new Vertex(0.0f, MOLD_WIDTH, 0.0f),
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, tubeRadius(), 0.0f),
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
-                            new Vertex(0.0f, tubeRadius(), blankConfiguration.getLength()),
-                            0));
-
+            addFacet(
+                    vertex(0.0f, tubeRadius(), 0.0f),
+                    vertex(0.0f, MOLD_WIDTH, 0.0f),
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength())
+            );
+            addFacet(
+                    vertex(0.0f, tubeRadius(), 0.0f),
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, tubeRadius(), blankConfiguration.getLength())
+            );
         }
 
         int x = 0;
@@ -283,17 +275,17 @@ public class Blanker {
             // pad shaft until image zero
             if (z < blankConfiguration.getImageZero()) {
                 for (int i = 0; i < steps; i++) {
-                    blank.addFacet(new Facet(
-                            new Vertex(x(i, false), y(i, false), z),
-                            new Vertex(x(i + 1, false), y(i + 1, false), z + Z_STEP),
-                            new Vertex(x(i + 1, false), y(i + 1, false), z),
-                            0));
+                    addFacet(
+                            vertex(x(i, false), y(i, false), z),
+                            vertex(x(i + 1, false), y(i + 1, false), z + Z_STEP),
+                            vertex(x(i + 1, false), y(i + 1, false), z)
+                    );
 
-                    blank.addFacet(new Facet(
-                            new Vertex(x(i, false), y(i, false), z),
-                            new Vertex(x(i, false), y(i, false), z + Z_STEP),
-                            new Vertex(x(i + 1, false), y(i + 1, false), z + Z_STEP),
-                            0));
+                    addFacet(
+                            vertex(x(i, false), y(i, false), z),
+                            vertex(x(i, false), y(i, false), z + Z_STEP),
+                            vertex(x(i + 1, false), y(i + 1, false), z + Z_STEP)
+                    );
                 }
 
                 continue;
@@ -307,67 +299,67 @@ public class Blanker {
 
                 if (isImage != topImage) {
                     if (isImage) {
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i + 1, true), y(i + 1, true), z),
-                                new Vertex(x(i + 1, false), y(i + 1, false), z),
-                                0));
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i + 1, false), y(i + 1, false), z),
-                                new Vertex(x(i, false), y(i, false), z),
-                                0));
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i + 1, true), y(i + 1, true), z),
+                                vertex(x(i + 1, false), y(i + 1, false), z)
+                        );
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i + 1, false), y(i + 1, false), z),
+                                vertex(x(i, false), y(i, false), z)
+                        );
                     } else {
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i + 1, false), y(i + 1, false), z),
-                                new Vertex(x(i + 1, true), y(i + 1, true), z),
-                                0));
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i, false), y(i, false), z),
-                                new Vertex(x(i + 1, false), y(i + 1, false), z),
-                                0));
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i + 1, false), y(i + 1, false), z),
+                                vertex(x(i + 1, true), y(i + 1, true), z)
+                        );
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i, false), y(i, false), z),
+                                vertex(x(i + 1, false), y(i + 1, false), z)
+                        );
                     }
                 }
 
                 if (isImage != leftImage) {
                     if (isImage) {
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i, false), y(i, false), z + Z_STEP),
-                                new Vertex(x(i, true), y(i, true), z + Z_STEP),
-                                0));
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i, false), y(i, false), z),
-                                new Vertex(x(i, false), y(i, false), z + Z_STEP),
-                                0));
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i, false), y(i, false), z + Z_STEP),
+                                vertex(x(i, true), y(i, true), z + Z_STEP)
+                        );
+                        addFacet(
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i, false), y(i, false), z),
+                                vertex(x(i, false), y(i, false), z + Z_STEP)
+                        );
                     } else {
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, false), y(i, false), z),
-                                new Vertex(x(i, true), y(i, true), z + Z_STEP),
-                                new Vertex(x(i, false), y(i, false), z + Z_STEP),
-                                0));
-                        blank.addFacet(new Facet(
-                                new Vertex(x(i, false), y(i, false), z),
-                                new Vertex(x(i, true), y(i, true), z),
-                                new Vertex(x(i, true), y(i, true), z + Z_STEP),
-                                0));
+                        addFacet(
+                                vertex(x(i, false), y(i, false), z),
+                                vertex(x(i, true), y(i, true), z + Z_STEP),
+                                vertex(x(i, false), y(i, false), z + Z_STEP)
+                        );
+                        addFacet(
+                                vertex(x(i, false), y(i, false), z),
+                                vertex(x(i, true), y(i, true), z),
+                                vertex(x(i, true), y(i, true), z + Z_STEP)
+                        );
                     }
                 }
 
-                blank.addFacet(new Facet(
-                        new Vertex(x(i, isImage), y(i, isImage), z),
-                        new Vertex(x(i + 1, isImage), y(i + 1, isImage), z + Z_STEP),
-                        new Vertex(x(i + 1, isImage), y(i + 1, isImage), z),
-                        0));
+                addFacet(
+                        vertex(x(i, isImage), y(i, isImage), z),
+                        vertex(x(i + 1, isImage), y(i + 1, isImage), z + Z_STEP),
+                        vertex(x(i + 1, isImage), y(i + 1, isImage), z)
+                );
 
-                blank.addFacet(new Facet(
-                        new Vertex(x(i, isImage), y(i, isImage), z),
-                        new Vertex(x(i, isImage), y(i, isImage), z + Z_STEP),
-                        new Vertex(x(i + 1, isImage), y(i + 1, isImage), z + Z_STEP),
-                        0));
+                addFacet(
+                        vertex(x(i, isImage), y(i, isImage), z),
+                        vertex(x(i, isImage), y(i, isImage), z + Z_STEP),
+                        vertex(x(i + 1, isImage), y(i + 1, isImage), z + Z_STEP)
+                );
             }
 
             x++;
@@ -381,17 +373,17 @@ public class Blanker {
             for (int i = 0; i < steps; i++) {
                 // TODO: figure out if we need to do anything for the last line of image, but for now
                 // we are going to assume the last line of the image is all at tube depth
-                blank.addFacet(new Facet(
-                        new Vertex(x(i, false), y(i, false), lastZ),
-                        new Vertex(x(i + 1, false), y(i + 1, false), blankConfiguration.getLength()),
-                        new Vertex(x(i + 1, false), y(i + 1, false), lastZ),
-                        0));
+                addFacet(
+                        vertex(x(i, false), y(i, false), lastZ),
+                        vertex(x(i + 1, false), y(i + 1, false), blankConfiguration.getLength()),
+                        vertex(x(i + 1, false), y(i + 1, false), lastZ)
+                );
 
-                blank.addFacet(new Facet(
-                        new Vertex(x(i, false), y(i, false), lastZ),
-                        new Vertex(x(i, false), y(i, false), blankConfiguration.getLength()),
-                        new Vertex(x(i + 1, false), y(i + 1, false), blankConfiguration.getLength()),
-                        0));
+                addFacet(
+                        vertex(x(i, false), y(i, false), lastZ),
+                        vertex(x(i, false), y(i, false), blankConfiguration.getLength()),
+                        vertex(x(i + 1, false), y(i + 1, false), blankConfiguration.getLength())
+                );
             }
         }
     }
@@ -403,46 +395,40 @@ public class Blanker {
 
         if (blankConfiguration.isMold()) {
             // left
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
-                            new Vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
-                            new Vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            0));
+            addFacet(
+                    vertex(0.0f, -tubeRadius(), blankConfiguration.getLength()),
+                    vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength())
+            );
+            addFacet(
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, -imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH)
+            );
 
             // right
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, tubeRadius(), blankConfiguration.getLength()),
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
-                            new Vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            new Vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            0));
+            addFacet(
+                    vertex(0.0f, tubeRadius(), blankConfiguration.getLength()),
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH)
+            );
+            addFacet(
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength()),
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, imageRadius(), blankConfiguration.getLength() + FUNNEL_DEPTH)
+            );
 
             // above
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            0));
-            blank.addFacet(
-                    new Facet(
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
-                            new Vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
-                            new Vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
-                            0));
+            addFacet(
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH)
+            );
+            addFacet(
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH),
+                    vertex(0.0f, MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING),
+                    vertex(0.0f, -MOLD_WIDTH, blankConfiguration.getLength() + FUNNEL_DEPTH + MOLD_TOP_PADDING)
+            );
         }
 
         if (blankConfiguration.isFunnel()) {
@@ -458,36 +444,35 @@ public class Blanker {
                 float z = blankConfiguration.getLength();
                 float Z = blankConfiguration.getLength() + FUNNEL_DEPTH;
 
-                blank.addFacet(new Facet(
-                        new Vertex(tx, ty, z),
-                        new Vertex(dX, dY, Z),
-                        new Vertex(tX, tY, z),
-                        0));
+                addFacet(
+                        vertex(tx, ty, z),
+                        vertex(dX, dY, Z),
+                        vertex(tX, tY, z)
+                );
 
-                blank.addFacet(new Facet(
-                        new Vertex(dx, dy, Z),
-                        new Vertex(dx, dy, Z + FUNNEL_HEIGHT),
-                        new Vertex(dX, dY, Z + FUNNEL_HEIGHT),
-                        0));
+                addFacet(
+                        vertex(dx, dy, Z),
+                        vertex(dx, dy, Z + FUNNEL_HEIGHT),
+                        vertex(dX, dY, Z + FUNNEL_HEIGHT)
+                );
 
-                blank.addFacet(new Facet(
-                        new Vertex(dx, dy, Z),
-                        new Vertex(dX, dY, Z + FUNNEL_HEIGHT),
-                        new Vertex(dX, dY, Z),
-                        0));
+                addFacet(
+                        vertex(dx, dy, Z),
+                        vertex(dX, dY, Z + FUNNEL_HEIGHT),
+                        vertex(dX, dY, Z)
+                );
 
-                blank.addFacet(new Facet(
-                        new Vertex(tx, ty, z),
-                        new Vertex(dx, dy, Z),
-                        new Vertex(dX, dY, Z),
-                        0));
+                addFacet(
+                        vertex(tx, ty, z),
+                        vertex(dx, dy, Z),
+                        vertex(dX, dY, Z)
+                );
 
-                blank.addFacet(
-                        new Facet(
-                                new Vertex(dx, dy, Z + FUNNEL_HEIGHT),
-                                new Vertex(0, 0, Z + FUNNEL_HEIGHT),
-                                new Vertex(dX, dY, Z + FUNNEL_HEIGHT),
-                                0));
+                addFacet(
+                        vertex(dx, dy, Z + FUNNEL_HEIGHT),
+                        vertex(0, 0, Z + FUNNEL_HEIGHT),
+                        vertex(dX, dY, Z + FUNNEL_HEIGHT)
+                );
             }
         } else {
             for (int i = 0; i < steps; i++) {
@@ -496,11 +481,11 @@ public class Blanker {
                 float X = x(i + 1, false);
                 float Y = y(i + 1, false);
 
-                blank.addFacet(new Facet(
-                        new Vertex(x, y, blankConfiguration.getLength()),
-                        new Vertex(0.0f, 0.0f, blankConfiguration.getLength()),
-                        new Vertex(X, Y, blankConfiguration.getLength()),
-                        0));
+                addFacet(
+                        vertex(x, y, blankConfiguration.getLength()),
+                        vertex(0.0f, 0.0f, blankConfiguration.getLength()),
+                        vertex(X, Y, blankConfiguration.getLength())
+                );
             }
         }
     }
@@ -551,8 +536,19 @@ public class Blanker {
     }
 
     private int rotationSteps() {
-//        return (int) ((Math.PI * blankConfiguration.getImageZero()) / Z_STEP);
         return (int) image.getHeight();
+    }
+
+    private Vertex vertex(float x, float y, float z) {
+        return new Vertex(x, y, z);
+    }
+
+    private void addFacet(Vertex a, Vertex b, Vertex c) {
+        if (blankConfiguration.isPositive()) {
+            blank.addFacet(new Facet(a, b, c, 0));
+        } else {
+            blank.addFacet(new Facet(a, c, b, 0));
+        }
     }
 
     public void writeStl() {

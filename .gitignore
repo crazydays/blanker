@@ -6,3 +6,6 @@ gradle
 out
 *.stl
 *.gif
+*.png
+*.xcf
+*.svg

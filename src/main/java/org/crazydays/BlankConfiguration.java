@@ -10,10 +10,11 @@ public class BlankConfiguration {
     private final boolean center;
     private final boolean funnel;
     private final boolean mold;
+    private final boolean positive;
     private float imageZero;
     private String imageFilename;
 
-    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, boolean funnel, boolean mold) {
+    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, boolean funnel, boolean mold, boolean positive) {
         this.units = units;
         this.length = length;
         this.tube = tube;
@@ -21,6 +22,7 @@ public class BlankConfiguration {
         this.center = center;
         this.funnel = funnel;
         this.mold = mold;
+        this.positive = positive;
     }
 
     public Units getUnits() {
@@ -70,6 +72,10 @@ public class BlankConfiguration {
 
     public boolean isMold() {
         return mold;
+    }
+
+    public boolean isPositive() {
+        return positive;
     }
 
     public void setImageZero(float imageZero) {

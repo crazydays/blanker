@@ -16,6 +16,7 @@ public class Main {
         parser.addArgument("-c", "--center").type(Boolean.class).setDefault(true).help("Mold center");
         parser.addArgument("-f", "--funnel").type(Boolean.class).setDefault(true).help("Pour funnel");
         parser.addArgument("-m", "--mold").type(Boolean.class).setDefault(false).help("Two Part Mold");
+        parser.addArgument("-p", "--positive").type(Boolean.class).setDefault(true).help("Create positive");
         parser.addArgument("-i", "--image").type(String.class).help("SVG image file");
         parser.addArgument("-o", "--output").type(String.class).setDefault("blank.stl").help("Output STL file");
 
@@ -41,6 +42,7 @@ public class Main {
         boolean center = ns.getBoolean("center");
         boolean funnel = ns.getBoolean("funnel");
         boolean mold = ns.getBoolean("mold");
+        boolean positive = ns.getBoolean("positive");
 
         float imageZero = ns.getFloat("imageZero");
         String imageFilename = ns.getString("image");
@@ -56,10 +58,11 @@ public class Main {
         System.out.format("\tFunnel: %b\n", funnel);
         System.out.format("\tMold: %b\n", mold);
         System.out.format("\tImageZero: %.3f\n", imageZero);
+        System.out.format("\tPositive: %b\n", positive);
         System.out.format("\tImageFilename: %s\n", imageFilename);
         System.out.format("\tOutputFilename: %s\n", outputFilename);
 
-        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel, mold);
+        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel, mold, positive);
         blankConfiguration.setImageZero(imageZero);
         blankConfiguration.setImageFilename(imageFilename);
 
