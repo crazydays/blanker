@@ -12,10 +12,11 @@ public class BlankConfiguration {
     private final float roundMold;
     private final float squareMold;
     private final boolean positive;
+    private float wallThickness;
     private float imageZero;
     private String imageFilename;
 
-    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, float funnel, float roundMold, float squareMold, boolean positive) {
+    public BlankConfiguration(Units units, float length, float tube, float diameter, boolean center, float funnel, float roundMold, float squareMold, boolean positive, float wallThickness) {
         this.units = units;
         this.length = length;
         this.tube = tube;
@@ -25,6 +26,7 @@ public class BlankConfiguration {
         this.roundMold = roundMold;
         this.squareMold = squareMold;
         this.positive = positive;
+        this.wallThickness = wallThickness;
     }
 
     protected Units getUnits() {
@@ -98,6 +100,14 @@ public class BlankConfiguration {
         }
     }
 
+    public float getWallThickness() {
+        return wallThickness;
+    }
+
+    public boolean isWallThickness() {
+        return wallThickness > 0.0f;
+    }
+
     public void setImageZero(float imageZero) {
         this.imageZero = imageZero;
     }
@@ -107,7 +117,6 @@ public class BlankConfiguration {
             case INCHES:
                 return imageZero * 25.4f;
             case MILLIMETERS:
-                return imageZero;
             default:
                 return imageZero;
         }

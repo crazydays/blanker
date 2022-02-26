@@ -18,6 +18,7 @@ public class Main {
         parser.addArgument("-m", "--mold").type(Float.class).setDefault(0.0f).help("Tube mold diameter");
         parser.addArgument("-s", "--squareMold").type(Float.class).setDefault(0.0f).help("Square mold width");
         parser.addArgument("-p", "--positive").type(Boolean.class).setDefault(true).help("Positive");
+        parser.addArgument("-w", "--wallThickness").type(Float.class).setDefault(0.0f).help("Wall Thickness");
         parser.addArgument("-i", "--image").type(String.class).help("SVG image file");
         parser.addArgument("-o", "--output").type(String.class).setDefault("blank.stl").help("Output STL file");
 
@@ -49,6 +50,7 @@ public class Main {
         float roundMold = ns.getFloat("mold");
         float squareMold = ns.getFloat("squareMold");
         boolean positive = ns.getBoolean("positive");
+        float wallThickness = ns.getFloat("wallThickness");
 
         float imageZero = ns.getFloat("imageZero");
         String imageFilename = ns.getString("image");
@@ -65,11 +67,12 @@ public class Main {
         System.out.format("\tRound Mold: %.3f\n", roundMold);
         System.out.format("\tSquare Mold: %.3f\n", squareMold);
         System.out.format("\tPositive: %b\n", positive);
+        System.out.format("\tWall Thickness: %.3f\n", wallThickness);
         System.out.format("\tImageZero: %.3f\n", imageZero);
         System.out.format("\tImageFilename: %s\n", imageFilename);
         System.out.format("\tOutputFilename: %s\n", outputFilename);
 
-        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel, roundMold, squareMold, positive);
+        BlankConfiguration blankConfiguration = new BlankConfiguration(units, length, tube, diameter, center, funnel, roundMold, squareMold, positive, wallThickness);
         blankConfiguration.setImageZero(imageZero);
         blankConfiguration.setImageFilename(imageFilename);
 
