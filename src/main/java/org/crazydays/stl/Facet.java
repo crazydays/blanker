@@ -1,4 +1,4 @@
-package org.crazydays;
+package org.crazydays.stl;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -6,7 +6,7 @@ import java.nio.ByteOrder;
 /*
  * https://www.fabbers.com/tech/STL_Format#Sct_binary
  */
-public class Facet {
+public class Facet implements Comparable<Facet>{
     private final Normal normal;
     private final Vertex a;
     private final Vertex b;
@@ -53,5 +53,28 @@ public class Facet {
     @Override
     public String toString() {
         return String.format("%s\n\tnormal: %s\n\ta: %s\n\tb: %s\n\tc: %s\n\tattributeByteCount: %d", getClass().getSimpleName(), getNormal(), getA(), getB(), getC(), getAttributeByeCount());
+    }
+
+    @Override
+    public int compareTo(Facet o) {
+        switch (a.compareTo(o.a)) {
+            case 0:
+                switch (b.compareTo(o.b)) {
+                    case 0:
+                        return c.compareTo(o.c);
+                    case -1:
+                        return -1;
+                    case 1:
+                        return 1;
+                    default:
+                        throw new UnsupportedOperationException("");
+                }
+            case -1:
+                return -1;
+            case 1:
+                return 1;
+            default:
+                throw new UnsupportedOperationException("");
+        }
     }
 }

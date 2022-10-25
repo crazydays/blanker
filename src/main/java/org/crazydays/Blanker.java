@@ -1,5 +1,9 @@
 package org.crazydays;
 
+import org.crazydays.stl.Facet;
+import org.crazydays.stl.Header;
+import org.crazydays.stl.Vertex;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -38,7 +42,7 @@ public class Blanker {
     public Blanker(BlankConfiguration blankConfiguration, String outputFilename) {
         this.blankConfiguration = blankConfiguration;
         this.blank = new Blank();
-        this.blank.setHeader(new StlHeader());
+        this.blank.setHeader(new Header("Blanker", outputFilename));
         this.outputFilename = outputFilename;
     }
 

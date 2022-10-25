@@ -1,19 +1,22 @@
 package org.crazydays;
 
+import org.crazydays.stl.Facet;
+import org.crazydays.stl.Header;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Blank {
-    private StlHeader header;
+    private Header header;
     private List<Facet> facets;
 
     public Blank() {
         this.facets = new LinkedList<>();
     }
 
-    public void setHeader(StlHeader header) {
+    public void setHeader(Header header) {
         this.header = header;
     }
 
